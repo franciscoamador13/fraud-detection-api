@@ -1,0 +1,15 @@
+# Data
+data/
+
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+
+# VS Code
+.vscode/
+
+# Environment variables
+.env
