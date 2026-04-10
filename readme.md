@@ -13,3 +13,5 @@ python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
 ```
+
+Data : https://www.kaggle.com/datasets/amanalisiddiqui/fraud-detection-dataset?resource=download
