@@ -1,55 +1,175 @@
-# Fraud Detection API
+# 🚨 Fraud Detection API
 
-A machine learning project for detecting fraudulent transactions using advanced data analysis and predictive modeling.
+A production-ready FastAPI service for detecting fraudulent financial transactions using XGBoost machine learning model.
 
+## 🎯 Overview
 
-## ⚠️ Important Notice - Dataset Download Required
+This API leverages machine learning to identify potentially fraudulent transactions in real-time. Built with **FastAPI** and **XGBoost**, it analyzes transaction patterns and returns fraud probability predictions.
 
-**Before running this project, you MUST download the dataset from the link below and place it in the `data/` folder.**
+**Key Features:**
+- Fast, scalable REST API
+- Real-time fraud detection
+- Automatic input validation
+- Interactive Swagger documentation
+- Comprehensive error handling
 
-📥 **Download Dataset:** [Fraud Detection Dataset on Kaggle](https://www.kaggle.com/datasets/amanalisiddiqui/fraud-detection-dataset?resource=download)
+## ✅ Prerequisites
 
-The dataset file should be saved as: `data/AIML Dataset.csv`
+- Python 3.8+
+- pip (Python package manager)
+- Git
 
-## Installation & Setup
+## 🚀 Installation
 
-### Linux/Mac
+### 1. Clone the Repository
 ```bash
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+git clone https://github.com/franciscoamador13/fraud-detection-api.git
+cd fraud-detection-api
 ```
 
-### Windows
+### 2. Download the Dataset
+
+**⚠️ IMPORTANT:** The dataset is required to train the model.
+
+1. Download from [Kaggle - Fraud Detection Dataset](https://www.kaggle.com/datasets/amanalisiddiqui/fraud-detection-dataset?resource=download)
+2. Place the file in the `data/` folder:
+   ```
+   data/AIML Dataset.csv
+   ```
+
+### 3. Create Virtual Environment
+
+**Linux/macOS:**
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+**Windows:**
 ```bash
 python -m venv venv
 venv\Scripts\activate
+```
+
+### 4. Install Dependencies
+```bash
 pip install -r requirements.txt
 ```
 
-## Project Structure
+## 📁 Project Structure
 
 ```
-fraud-detection-API/
-├── readme.md                 # Project documentation
-├── requirements.txt          # Python dependencies
+fraud-detection-api/
+├── README.md                    # Project documentation
+├── requirements.txt             # Python dependencies
 ├── data/
-│   └── AIML Dataset.csv     # Dataset (download required)
-├── model/                    # Trained models
-└── notebooks/
-    └── eda.ipynb            # Exploratory Data Analysis
+│   └── AIML Dataset.csv        # Dataset (⬇️ download required)
+├── model/
+│   └── xgboost_fraud_model.pkl # Trained XGBoost model
+├── notebooks/
+│   └── eda.ipynb               # Exploratory Data Analysis
+├── app/
+│   └── main.py                 # FastAPI application
+└── .gitignore
 ```
 
-## Getting Started
+## 🔌 API Documentation
 
-1. Clone this repository
-2. Download the dataset from the link above
-3. Place the dataset in the `data/` folder
-4. Follow the Installation & Setup instructions for your operating system
-5. Explore the `eda.ipynb` notebook for data analysis
+### Base URL
+```
+http://127.0.0.1:8000/v1
+```
 
-## Dataset
+### Endpoints
 
-- **Source:** [Kaggle - Fraud Detection Dataset](https://www.kaggle.com/datasets/amanalisiddiqui/fraud-detection-dataset?resource=download)
-- **File Name:** AIML Dataset.csv
-- **Location:** `data/` folder
+#### 1. **GET `/v1/`** — API Information
+Returns general information about the API.
+
+**Response:**
+```json
+{
+  "message": "This is a fraud detection model based on transaction data.",
+  "version": "1.0.0",
+  "endpoints": {
+    "docs": "/docs"
+  }
+}
+```
+
+#### 2. **POST `/v1/predict`** — Predict Fraud
+Analyzes a transaction and returns fraud prediction.
+
+**Request Body:**
+```json
+{
+  "amount": 1000,
+  "oldbalanceOrg": 1000000000000000,
+  "newbalanceOrig": 0,
+  "oldbalanceDest": 1000,
+  "newbalanceDest": 1000,
+  "type": "CASH_OUT"
+}
+```
+
+**Response:**
+```json
+{
+  "prediction": 1
+}
+```
+
+- `0` = Legitimate transaction
+- `1` = Fraudulent transaction
+
+**Transaction Types:**
+- `PAYMENT`
+- `TRANSFER`
+- `CASH_OUT`
+- `CASH_IN`
+- `DEBIT` (⚠️ Low confidence — few training examples)
+
+## 💻 Usage
+
+### 1. Start the API Server
+
+```bash
+cd app
+uvicorn main:app --reload
+```
+
+Server runs on: `http://127.0.0.1:8000`
+
+### 2. Access Interactive Documentation
+
+Open in your browser:
+- **Swagger UI:** http://127.0.0.1:8000/docs
+
+## 📊 Dataset
+
+- **Source:** [Kaggle - Fraud Detection Dataset](https://www.kaggle.com/datasets/amanalisiddiqui/fraud-detection-dataset)
+
+## 📈 Model Performance
+
+**XGBoost Classifier**
+
+| Metric | Value |
+|--------|-------|
+| Precision (Class 1) | 0.02 |
+| Recall (Class 1) | 0.94 |
+| F1-Score (Class 1) | 0.04 |
+
+## 📝 Workflow
+
+1. **Data Exploration** → `notebooks/eda.ipynb`
+2. **Model Training** → Train XGBoost on dataset
+3. **Model Serialization** → Save to `model/xgboost_fraud_model.pkl`
+4. **API Deployment** → FastAPI loads model at startup
+5. **Real-time Predictions** → POST requests return fraud predictions
+
+## 🛠️ Technologies Used
+
+- **FastAPI** - Web framework
+- **XGBoost** - Machine learning model
+- **Pandas** - Data manipulation
+- **Pydantic** - Data validation
+- **Joblib** - Model serialization
