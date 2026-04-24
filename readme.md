@@ -126,7 +126,7 @@ Analyzes a transaction and returns fraud prediction.
 - `TRANSFER`
 - `CASH_OUT`
 - `CASH_IN`
-- `DEBIT` (⚠️ Low confidence — few training examples)
+- `DEBIT` (⚠️ Low confidence - few training examples)
 
 ## 💻 Usage
 
@@ -154,9 +154,9 @@ Open in your browser:
 
 | Metric | Value |
 |--------|-------|
-| Precision (Class 1) | 0.02 |
-| Recall (Class 1) | 0.94 |
-| F1-Score (Class 1) | 0.04 |
+| Precision (Class 1) | 0.55 |
+| Recall (Class 1) | 0.98 |
+| F1-Score (Class 1) | 0.70 |
 
 ## 📝 Workflow
 
